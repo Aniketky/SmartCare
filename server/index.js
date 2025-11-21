@@ -13,14 +13,16 @@ const chatRoutes = require('./routes/chat');
 const doctorRoutes = require('./routes/doctors');
 const appointmentRoutes = require('./routes/appointments');
 const uploadRoutes = require('./routes/upload');
+const oximeterRoutes = require('./routes/oximeter');
+const temperatureRoutes = require('./routes/temperature');
 
 // Security middleware
 app.use(helmet());
 
-// Rate limiting
+// Rate limiting - More lenient for development
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 1000 // limit each IP to 1000 requests per windowMs (increased for testing)
 });
 app.use(limiter);
 
@@ -44,6 +46,8 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/oximeter', oximeterRoutes);
+app.use('/api/temperature', temperatureRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

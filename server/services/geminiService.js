@@ -2,11 +2,14 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 class GeminiService {
   constructor() {
-    if (!process.env.GEMINI_API_KEY) {
-      throw new Error('GEMINI_API_KEY environment variable is not set');
+    // Use the provided API key or fallback to environment variable
+    const apiKey = process.env.GEMINI_API_KEY || 'AIzaSyBxzKKU1qjUx9ZryWopQrGjHLo9oaAecGg';
+    
+    if (!apiKey) {
+      throw new Error('GEMINI_API_KEY is not set');
     }
     
-    this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    this.genAI = new GoogleGenerativeAI(apiKey);
     // Use the correct model name
     this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
   }
